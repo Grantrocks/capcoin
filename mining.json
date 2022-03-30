@@ -1,3 +1,49 @@
 {
- "MINING REWARDS": []
+ "MINING REWARDS": [
+  {
+   "HASH": "f40b35ce20b924ce6cfc055d6211c390b5b3010c14e523199a3d0ab49dc78c8c",
+   "txdata": {
+    "FROM": "MINER REWARDS",
+    "TO": "12PfngNd2j5dypqUJqF5oQvf6FM6Tau2sF",
+    "AMOUNT": 0.0101,
+    "Signing": "04aef49f4bf503adfde730f6e2b339e4794e2bbc131a0c1636db9a5084cea2a2"
+   }
+  },
+  {
+   "HASH": "f6e35917e8c72120a25a211290e92160576e941f1649828a73192b26e4a20e9c",
+   "txdata": {
+    "FROM": "MINER REWARDS",
+    "TO": "12PfngNd2j5dypqUJqF5oQvf6FM6Tau2sF",
+    "AMOUNT": 0.005,
+    "Signing": "04aef49f4bf503adfde730f6e2b339e4794e2bbc131a0c1636db9a5084cea2a2"
+   }
+  },
+  {
+   "HASH": "8f68b724f85d9367fb582768d8d74e32a2998db363b502babb8c7a3988d3f1b5",
+   "txdata": {
+    "FROM": "MINER REWARDS",
+    "TO": "1PJt5vUjLjCZShavTf531vpCAp1zTP7W65",
+    "AMOUNT": 0.030299999999999994,
+    "Signing": "04aef49f4bf503adfde730f6e2b339e4794e2bbc131a0c1636db9a5084cea2a2"
+   }
+  },
+  {
+   "HASH": "06887bf263afa903318861108b43f38eae34312e7b4757c0f8ef19d4c8128477",
+   "txdata": {
+    "FROM": "MINER REWARDS",
+    "TO": "1PJt5vUjLjCZShavTf531vpCAp1zTP7W65",
+    "AMOUNT": 0.025249999999999998,
+    "Signing": "04aef49f4bf503adfde730f6e2b339e4794e2bbc131a0c1636db9a5084cea2a2"
+   }
+  },
+  {
+   "HASH": "cd9da41d71cd9ba04d715ba200904e65b9da7f55d92310a9ba3bd7f130eee848",
+   "txdata": {
+    "FROM": "MINER REWARDS",
+    "TO": "16rPpTocgSzpankorBYgpkvRvKJwxTW6bW",
+    "AMOUNT": 0.020199999999999996,
+    "Signing": "04aef49f4bf503adfde730f6e2b339e4794e2bbc131a0c1636db9a5084cea2a2"
+   }
+  }
+ ]
 }

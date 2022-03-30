@@ -1,0 +1,77 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>CapCoin - Home Page</title>
+  </head>
+  <body>
+    <h1>CapCoin</h1>
+    <p>Capcoin is a crytpocurrency designed for very low fees and fast confirmations.</p>
+    <input type="text" id="address" placeholder="CAP Address">
+    <button onclick="send()">Mine CAP</button>
+    <button onclick="addresslookup()">Lookup Address</button>
+    <div id="result"></div>
+    <script>
+      function get(theUrl) {
+        let xmlHttpReq = new XMLHttpRequest();
+        xmlHttpReq.open("GET", theUrl,false); 
+        xmlHttpReq.send(null);
+        return JSON.parse(xmlHttpReq.responseText);
+      };
+      function send(){
+        var result = document.getElementById("result");
+        var address=document.getElementById("address").value;
+        url="https://capcoin.grantrocks.repl.co/mine?address="+address;
+        pooldata=get(url);
+        poolmsg=pooldata.msg;
+        miner_payout=pooldata.minerpayouts;
+        pool_pay_num=miner_payout.PoolNumber;
+        your_luck=miner_payout.YourNumber;
+        result.innerHTML = `<br>Message From Pool: ${poolmsg}<h3>Poolstats</h3><p>In order for the miners to be paid, someones computer must guess the right number and there have to be pending rewards.</p><br>Pool Number: ${pool_pay_num}<br>Your Miners Number: ${your_luck}`;
+      };
+      function addresslookup(){
+        var result = document.getElementById("result");
+        var address=document.getElementById("address").value;
+        url="https://capcoin.grantrocks.repl.co/explore";
+        var r = get(url);
+        result.innerHTML="";
+        txsdata=""
+        found=0
+        total=0
+        txnfound=0
+        for (i in r){
+          txfound=""
+          data=r[i].data
+          index=r[i].index
+          block_hash=data.previous_hash
+          confirmed=data.confirmed
+          time=data.timestamp
+          proof=data.proof
+          transactions=data.transactions
+          for(t in transactions){
+            txid=transactions[t].HASH
+            txdata=transactions[t].txdata
+            to=txdata.TO
+            from=txdata.FROM
+            amount=txdata.AMOUNT
+            found+=1
+            if (to==address){
+              txnfound+=1
+              total+=parseFloat(amount);
+              txfound+=`<br>---Transaction In This Block---<br>From: ${from}<br>To: ${to}<br>Amount: ${amount}<br>TX ID: ${txid}<br>`
+              txsdata+=`==============================<br>Hash: ${block_hash}<br> Time Confirmed: ${time}<br>  Confirmed: ${confirmed}<br>`;
+              txsdata+=txfound;
+            }
+          }
+        };
+        if (found>0 && txnfound>0){
+          result.innerHTML=txsdata;
+          wallet_data=`<br><h2>Wallet Data</h2>Wallet Balance: CAP ${total}`;
+          result.innerHTML+=wallet_data;
+        }else{
+          txdata="This address was not found in the blockchain";
+          result.innerHTML=txsdata;
+        };
+      };
+    </script>
+  </body>
+</html>

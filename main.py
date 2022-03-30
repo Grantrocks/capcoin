@@ -1,8 +1,9 @@
 import datetime
 import json
 import hashlib
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, render_template
 from minerreward import send_reward
+import checkaddress
 import random
 pay=158
 class Blockchain:
@@ -81,71 +82,95 @@ app = Flask(__name__)
 
 blockchain = Blockchain()
 
-
-@app.route('/mine_block', methods=['GET'])
+@app.route('/', methods=['GET'])
+def homepage():
+  return render_template("index.html"),200
+@app.route('/explore', methods=['GET'])
+def explore():
+  data=open("blockchain.json")
+  jdata=json.load(data)
+  data.close()
+  print(type(jdata))
+  return jsonify(jdata['Blockchain']),200
+@app.route('/mine', methods=['GET'])
 def mine_block():
    address=request.args.get('address')
+   if address=="":
+     address="MINER REWARDS"
    # get the data we need to create a block
    previous_block = blockchain.get_previous_block()
    previous_proof = previous_block['proof']
    proof = blockchain.proof_of_work(previous_proof)
    previous_hash = blockchain.hash(previous_block)
-   try:
+   #try:
+   f=open("pending.json","r+")
+   mr=open("mining.json","r+")
+   mrd=json.load(mr)
+   mrrewards=mrd["MINING REWARDS"]
+   pending=json.load(f)
+   transactions=pending["new"]
+   mr.close()
+   urpay=random.randint(0,200)
+   if len(transactions)>0:
+     checked=0
+     for m in transactions:
+       td=m['txdata']
+       dec=td["Signing"]
+       pub=dec["Public Key"]
+       addr=dec["Address"]
+       cp=checkaddress.miner_check(pub)
+       if cp==addr:
+         pass
+       else:
+         transactions.pop(checked)
+       checked+=1
+     block = blockchain.create_blockchain(proof, previous_hash,transactions)
+     response = {"index":block['index'],"data":{"confirmed": "True","timestamp": block["timestamp"],"proof": block["proof"],"previous_hash": block["previous_hash"],"transactions": block["transactions"]}}
+     r=response['data']
+     tr=r['transactions']
+     txtotal=0
+     for t in tr:
+       td=t['txdata']
+       capt=td['AMOUNT']
+       txtotal+=float(capt)
+     rst={"new":[]}
+     f.truncate(0)
+     f.close()
+     send_reward(address,txtotal)
      f=open("pending.json","r+")
+     json.dump(rst,f,indent=1)
+     f.close()
+     f=open("blockchain.json","r+")
+     file_data=json.load(f)
+     new_data = response
+     file_data["Blockchain"].append(new_data)
+     f.seek(0)
+     json.dump(file_data, f, indent=1)
+     f.close()
+     mined=f"Your Reward: {txtotal*0.01}  Wait for a miner to get the right number so you can get your reward."
+     return {"msg":mined,"minerpayouts":{"YourNumber":urpay,"PoolNumber":pay}}, 200
+   elif len(mrrewards)>0 and pay==urpay:
+     block = blockchain.create_blockchain(proof, previous_hash,mrrewards)
+     response = {"index":block['index'],"data":{"confirmed": "True","timestamp": block["timestamp"],"proof": block["proof"],"previous_hash": block["previous_hash"],"transactions": block["transactions"]}}
      mr=open("mining.json","r+")
-     mrd=json.load(mr)
-     mrrewards=mrd["MINING REWARDS"]
-     pending=json.load(f)
-     transactions=pending["new"]
+     mr.truncate(0)
      mr.close()
-     urpay=random.randint(0,200)
-     if len(transactions)>0:
-       block = blockchain.create_blockchain(proof, previous_hash,transactions)
-       response = {"index":block['index'],"data":{"confirmed": "True","timestamp": block["timestamp"],"proof": block["proof"],"previous_hash": block["previous_hash"],"transactions": block["transactions"]}}
-       r=response['data']
-       tr=r['transactions']
-       txtotal=0
-       for t in tr:
-         td=t['txdata']
-         capt=td['AMOUNT']
-         txtotal+=float(capt)
-       send_reward(address,txtotal)
-       rst={"new":[]}
-       f.truncate(0)
-       f.close()
-       f=open("pending.json","r+")
-       json.dump(rst,f,indent=1)
-       f.close()
-       f=open("blockchain.json","r+")
-       file_data=json.load(f)
-       new_data = response
-       file_data["Blockchain"].append(new_data)
-       f.seek(0)
-       json.dump(file_data, f, indent=1)
-       f.close()
-       return {"msg":response}, 200
-     elif len(mrrewards)>0 and pay==urpay:
-       block = blockchain.create_blockchain(proof, previous_hash,mrrewards)
-       response = {"index":block['index'],"data":{"confirmed": "True","timestamp": block["timestamp"],"proof": block["proof"],"previous_hash": block["previous_hash"],"transactions": block["transactions"]}}
-       mr=open("mining.json","r+")
-       mr.truncate(0)
-       mr.close()
-       mr=open("mining.json","r+")
-       rst={"MINING REWARDS":[]}
-       json.dump(rst,mr,indent=1)
-       mr.close()
-       f=open("blockchain.json","r+")
-       file_data=json.load(f)
-       new_data = response
-       file_data["Blockchain"].append(new_data)
-       f.seek(0)
-       json.dump(file_data, f, indent=1)
-       f.close()
-       return {"msg":response}, 200
-     else:
-       return {"msg":"There are no transactions to confirm at this time!","miner payouts":{"Your Number":urpay,"Pool Number":pay}}, 200
-   except:
-     return {"msg":"Something went wrong!"},200
+     mr=open("mining.json","r+")
+     rst={"MINING REWARDS":[]}
+     json.dump(rst,mr,indent=1)
+     mr.close()
+     f=open("blockchain.json","r+")
+     file_data=json.load(f)
+     new_data = response
+     file_data["Blockchain"].append(new_data)
+     f.seek(0)
+     json.dump(file_data, f, indent=1)
+     f.close()
+     return {"msg":response,"minerpayouts":{"YourNumber":urpay,"PoolNumber":pay}}, 200
+   else:
+     return {"msg":"There are no transactions to confirm at this time!","minerpayouts":{"YourNumber":urpay,"PoolNumber":pay}}, 200
+   #except:
+     #return {"msg":"Something went wrong!"},200
 
 
 @app.route('/get_chain', methods=['GET'])

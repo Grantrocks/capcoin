@@ -19,5 +19,3 @@ def search():
         tx=t['txdata']
         print(f"TX ID: {lookfor} Confirmed: {confirmed} Blockhash: {blockhash}")
         print(f"CapCoin Amount: {round(float(tx['AMOUNT'])):f} From: {tx['FROM']} Sent To: {tx['TO']}")
-      else:
-        print("Not Found")
