@@ -168,7 +168,7 @@ else:
     elif wtd=='1':
       htm=input("How many hashes to mine: ")
       for i in range(int(htm)):
-        url="https://capcoin.grantrocks.repl.co/mine_block?address="+str(address)
+        url="https://capcoinofficial.herokuapp.com/mine_block?address="+str(address)
         re=requests.get(url)
         data=re.json()
         print(data["msg"])
