@@ -153,7 +153,27 @@ def get_chain():
    response = {'chain': blockchain.chain,
                'length': len(blockchain.chain)}
    return jsonify(response), 200
-
+@app.route('/pending',methods=['GET'])
+def pending():
+  f=open("pending.json")
+  data=f.read()
+  f.close()
+  response=json.load(f)
+  return jsonify(response),200
+@app.route('/mining',methods=['GET'])
+def mining():
+  f=open("mining.json")
+  data=f.read()
+  f.close()
+  response=json.load(f)
+  return jsonify(response),200
+@app.route('/blockchain',methods=['GET'])
+def bchain():
+  f=open("blockchain.json")
+  data=json.load(f)
+  f.close()
+  response=data
+  return jsonify(response),200
 
 
 app.run(host='0.0.0.0', port=5000)

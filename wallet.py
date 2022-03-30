@@ -2,6 +2,7 @@ import hashlib
 import random
 import json
 import requests
+from explorer import search
 import time
 address=""
 returne=input("Have you used the wallet before: ")
@@ -34,15 +35,15 @@ if returne=="y":
     print("Incorrect Password!")
     exit()
   while True:
-    wtd=input("1=Mine | 2=Send | 3=Check Balance")
+    wtd=input("1=Mine | 2=Send | 3=Check Balance | 4=Explorer")
     if wtd=="2":
       to=input("To: ")
       qty=input("Amount: ")
       fee=float(qty)*0.01
       calc=float(qty)+fee
-      if float(qty)>=float(calc):
+      if float(total)<=float(calc):
         print("You dont have enough CAP to also cover the fees")
-      elif float(qty)<float(calc):
+      elif float(total)>float(calc):
         data={"FROM":str(address),"TO":str(to),"AMOUNT":str(qty)}
         hash=hashlib.sha256(str(data).encode('utf-8')).hexdigest()
         ts={"HASH":hash,"txdata":{"FROM":address,"TO":to,"AMOUNT":qty}}
@@ -93,6 +94,8 @@ if returne=="y":
         re=requests.get(url)
         print(re.json())
         time.sleep(5)
+    elif wtd=="4":
+      search()
 else:
   pw=input("Set A Password: ")
   for i in range(24):
@@ -120,18 +123,25 @@ else:
       if hs["FROM"]==address:
         total-=float(hs["AMOUNT"])
   while True:
-    wtd=input("1=Mine | 2=Send | 3=Check Balance")
+    wtd=input("1=Mine | 2=Send | 3=Check Balance | 4=Explorer")
     if wtd=="2":
       to=input("To: ")
       qty=input("Amount: ")
       fee=float(qty)*0.01
       calc=float(qty)+fee
-      if float(qty)>=float(calc):
+      if float(total)<=float(calc):
         print("You dont have enough CAP to also cover the fees")
-      elif float(qty)<float(calc):
-        data={"FROM":str(address),"TO":str(to),"AMOUNT":str(qty)}
+      elif float(total)>float(calc):
+        security={
+          "WalletHash":recovery,
+          "WalletPassword":pw,
+          "WalletAddress":address,
+          "SignedByAddress":"True"
+        }
+        signhash=hashlib.sha256(str(security).encode('utf-8')).hexdigest()
+        data={"FROM":str(address),"TO":"MINER REWARDS","AMOUNT":str(fee)}
         hash=hashlib.sha256(str(data).encode('utf-8')).hexdigest()
-        ts={"HASH":hash,"txdata":{"FROM":address,"TO":to,"AMOUNT":qty}}
+        ts={"HASH":hash,"txdata":{"FROM":address,"TO":"MINER REWARDS","AMOUNT":fee,"Signing":signhash}}
         pend=open("pending.json","r+")
         cur_data=json.load(pend)
         cur_data["new"].append(ts)
@@ -168,8 +178,10 @@ else:
     elif wtd=='1':
       htm=input("How many hashes to mine: ")
       for i in range(int(htm)):
-        url="https://capcoinofficial.herokuapp.com/mine_block?address="+str(address)
+        url="https://grantrocks.pythonanywhere.com/mine_block?address="+str(address)
         re=requests.get(url)
         data=re.json()
         print(data["msg"])
         time.sleep(5)
+    elif wtd=="4":
+      search()
