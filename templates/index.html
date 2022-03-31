@@ -5,22 +5,25 @@
   </head>
   <body>
     <h1>CapCoin</h1>
+    <a href="https://capcoin.grantrocks.repl.co/wallet">Web Wallet</a>
     <p>Capcoin is a crytpocurrency designed for very low fees and fast confirmations.</p>
     <input type="text" id="address" placeholder="CAP Address">
     <button onclick="send()">Mine CAP</button>
     <button onclick="addresslookup()">Lookup Address</button>
-    <div id="result"></div>
+    <br>
+    <textarea style="width: 600px; height: 400px;" id="result"></textarea>
     <script>
+      localStorage.balance="";
       function get(theUrl) {
         let xmlHttpReq = new XMLHttpRequest();
         xmlHttpReq.open("GET", theUrl,false); 
-        xmlHttpReq.send(null);
+        xmlHttpReq.send();
         return JSON.parse(xmlHttpReq.responseText);
       };
       function send(){
         var result = document.getElementById("result");
         var address=document.getElementById("address").value;
-        url="https://cryptoandpicoin.herokuapp.com/mine?address="+address;
+        url="https://capcoin.grantrocks.repl.co/mine?address="+address;
         pooldata=get(url);
         poolmsg=pooldata.msg;
         miner_payout=pooldata.minerpayouts;
@@ -28,10 +31,21 @@
         your_luck=miner_payout.YourNumber;
         result.innerHTML = `<br>Message From Pool: ${poolmsg}<h3>Poolstats</h3><p>In order for the miners to be paid, someones computer must guess the right number and there have to be pending rewards.</p><br>Pool Number: ${pool_pay_num}<br>Your Miners Number: ${your_luck}`;
       };
+      function getbal(){
+        var address=document.getElementById("address").value;
+        let xhr = new XMLHttpRequest();
+        xhr.open('GET', 'https://capcoin.grantrocks.repl.co/wallet/getbalance?address='+address);
+        xhr.responseType = 'text';
+        xhr.send();
+        xhr.onload=function(){
+          localStorage.balance=xhr.response;
+        };
+        return localStorage.balance;
+      };
       function addresslookup(){
         var result = document.getElementById("result");
         var address=document.getElementById("address").value;
-        url="https://cryptoandpicoin.herokuapp.com/explore";
+        url="https://capcoin.grantrocks.repl.co/explore";
         var r = get(url);
         result.innerHTML="";
         txsdata=""
@@ -57,20 +71,21 @@
             if (to==address){
               txnfound+=1
               total+=parseFloat(amount);
-              txfound+=`<br>---Transaction In This Block---<br>From: ${from}<br>To: ${to}<br>Amount: ${amount}<br>TX ID: ${txid}<br>`
-              txsdata+=`==============================<br>Hash: ${block_hash}<br> Time Confirmed: ${time}<br>  Confirmed: ${confirmed}<br>`;
+              txfound+=`\n  ---Transaction In This Block---\n  From: ${from}\n  To: ${to}\n  Amount: ${amount}\n  TX ID: ${txid}\n`
+              txsdata+=`==============================\nHash: ${block_hash}\n  Time Confirmed: ${time}\n  Confirmed: ${confirmed}\n`;
               txsdata+=txfound;
             }
           }
         };
         if (found>0 && txnfound>0){
           result.innerHTML=txsdata;
-          wallet_data=`<br><h2>Wallet Data</h2>Wallet Balance: CAP ${total}`;
+          getbal();
+          wallet_data=`\nWallet Balance: CAP ${localStorage.balance}`;
           result.innerHTML+=wallet_data;
         }else{
           txdata="This address was not found in the blockchain";
           result.innerHTML=txsdata;
-        };
+        }
       };
     </script>
   </body>

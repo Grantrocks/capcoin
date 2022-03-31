@@ -4,8 +4,7 @@ import bitcoin
 def generate():
   mnemon = Mnemonic('english')
   words = mnemon.generate(256)
-  wd=[words]
-  return wd
+  return words
 def check(words):
   mnemon = Mnemonic('english')
   seed = mnemon.to_seed(words)

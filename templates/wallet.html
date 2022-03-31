@@ -1,0 +1,96 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>CapCoin Wallet</title>
+  </head>
+  <body>
+    <h1>CapCoin Wallet</h1>
+    <a href="https://capcoin.grantrocks.repl.co">Home</a>
+    <p>You can use your capcoin here on this official website.</p>
+    <button onclick="generate()">Generate Wallet</button>
+    <br>
+    <input type="text" id="mnemonic-seed" placeholder="Mnemonic Seed">
+    <br>
+    <button onclick="importwallet()">Import Wallet</button>
+    <div id="wallet">
+      <p>In the web wallet you can send capcoin and you can also view your wallet data.</p>
+      <p id="fclaimr">If you dont have any cap then you can claim from the faucet for some.</p>
+      <button onclick="faucetclaim()">Claim From Faucet</button>
+      <div id="wallet-data">
+        <input type="hidden" id="address">
+        <input type="hidden" id="pub">
+        <input type="hidden" id="priv">
+        <div id="wallet-data-text"></div>
+        <div id="send-form">
+          <input id="send-to" type="text" placeholder="Send To">
+          <input id="send-amount" type="text" placeholder="Amount">
+          <button onclick="transaction()">Send CAP</button>
+          <div id="send-result"></div>
+        </div>
+      </div>
+    </div>
+    <script>
+      const wallet = document.getElementById("wallet");
+      wallet.style.display="none";
+      function generate(){
+        var generate = new XMLHttpRequest();
+        generate.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+               document.getElementById("mnemonic-seed").value = generate.responseText;
+            }
+        };
+        generate.open("GET", "https://capcoin.grantrocks.repl.co/wallet/generate", true);
+        generate.send();
+      };
+      function faucetclaim(){
+        var claim = new XMLHttpRequest();
+        var address = document.getElementById("address").value;
+        claim.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+               document.getElementById("fclaimr").innerHTML = claim.responseText;
+            }
+        };
+        claim.open("GET", "https://capcoin.grantrocks.repl.co/wallet/faucetclaim?address="+address, true);
+        claim.send();
+      };
+      function transaction(){
+        var sendcap = new XMLHttpRequest();
+        var to = document.getElementById("send-to").value;
+        var amount = document.getElementById("send-amount").value;
+        var privk=document.getElementById("priv").value;
+        sendcap.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+               document.getElementById("send-result").innerHTML = sendcap.responseText;
+            }
+        };
+        sendcap.open("GET", "https://capcoin.grantrocks.repl.co/wallet/sendcap?to="+to+'&amount='+amount+'&priv='+privk, true);
+        c=confirm(`Are you sure you want to send ${amount} CAP`)
+        if (c==true){
+          sendcap.send();
+        }else{
+          document.getElementById("send-result").innerHTML = "Transaction canceled.";
+        }
+      };
+      function importwallet(){
+        wallet.style.display='block';
+        var importwalleth = new XMLHttpRequest();
+        var iseed = document.getElementById("mnemonic-seed").value;
+        importwalleth.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+               jdata=JSON.parse(importwalleth.responseText);
+               address=jdata.address;
+               priv=jdata.priv;
+               pub=jdata.pub;
+               wallettext=`Address: ${address}<br>Private Key: ${priv}<br>Public Key: ${pub}`;
+               document.getElementById("wallet-data-text").innerHTML = wallettext;
+               document.getElementById("address").value=address;
+               document.getElementById("pub").value=pub;
+               document.getElementById("priv").value=priv;
+            }
+        };
+        importwalleth.open("GET", "https://capcoin.grantrocks.repl.co/wallet/import?seed="+iseed, true);
+        importwalleth.send();
+      };
+    </script>
+  </body>
+</html>

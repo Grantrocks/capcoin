@@ -5,6 +5,7 @@ from flask import Flask, jsonify, request, render_template
 from minerreward import send_reward
 import checkaddress
 import random
+import webapi
 pay=158
 class Blockchain:
    def __init__(self):
@@ -85,12 +86,43 @@ blockchain = Blockchain()
 @app.route('/', methods=['GET'])
 def homepage():
   return render_template("index.html"),200
+@app.route('/wallet', methods=['GET'])
+def wallet():
+  return render_template("wallet.html"),200
+@app.route('/wallet/generate', methods=['GET'])
+def generateweb():
+  words=checkaddress.generate()
+  return words,200
+@app.route('/wallet/sendcap', methods=['GET'])
+def sendcap():
+  to=request.args.get('to')
+  privks=request.args.get('priv')
+  amount=request.args.get('amount')
+  webtx=webapi.sendcap(to,amount,privks)
+  return webtx
+@app.route('/wallet/faucetclaim', methods=['GET'])
+def faucetcl():
+  status=webapi.faucetclaim(request.args.get('address'))
+  return status
+@app.route('/wallet/import', methods=['GET'])
+def walletimport():
+  words=checkaddress.check(request.args.get('seed'))
+  address=words[1]
+  pub=words[2]
+  priv=words[3]
+  json_import={"address":address,"pub":pub,"priv":priv}
+  return jsonify(json_import),200
+@app.route('/wallet/getbalance', methods=['GET'])
+def gb():
+  addr=request.args.get('address')
+  bal=webapi.balance(addr)
+  raw=bal
+  return raw,200
 @app.route('/explore', methods=['GET'])
 def explore():
   data=open("blockchain.json")
   jdata=json.load(data)
   data.close()
-  print(type(jdata))
   return jsonify(jdata['Blockchain']),200
 @app.route('/mine', methods=['GET'])
 def mine_block():
