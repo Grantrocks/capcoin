@@ -81,7 +81,7 @@ def wallet(rs):
       elif wtd=='1':
         htm=input("How many hashes to mine: ")
         for i in range(int(htm)):
-          url="https://capcoin.grantrocks.repl.co/mine?address="+str(address)
+          url="https://cryptoandpicoin.herokuapp.com/mine?address="+str(address)
           re=requests.get(url)
           data=re.json()
           try:

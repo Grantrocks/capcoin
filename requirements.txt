@@ -1,3 +1,5 @@
 flask
 requests
 bitcoin
+mnemonic
+bip32utils

@@ -20,7 +20,7 @@
       function send(){
         var result = document.getElementById("result");
         var address=document.getElementById("address").value;
-        url="https://capcoin.grantrocks.repl.co/mine?address="+address;
+        url="https://cryptoandpicoin.herokuapp.com/mine?address="+address;
         pooldata=get(url);
         poolmsg=pooldata.msg;
         miner_payout=pooldata.minerpayouts;
@@ -31,7 +31,7 @@
       function addresslookup(){
         var result = document.getElementById("result");
         var address=document.getElementById("address").value;
-        url="https://capcoin.grantrocks.repl.co/explore";
+        url="https://cryptoandpicoin.herokuapp.com/explore";
         var r = get(url);
         result.innerHTML="";
         txsdata=""
