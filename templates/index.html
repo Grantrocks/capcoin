@@ -5,7 +5,7 @@
   </head>
   <body>
     <h1>CapCoin</h1>
-    <a href="https://capcoin.grantrocks.repl.co/wallet">Web Wallet</a>
+    <a href="/wallet">Web Wallet</a>
     <p>Capcoin is a crytpocurrency designed for very low fees and fast confirmations.</p>
     <input type="text" id="address" placeholder="CAP Address">
     <button onclick="send()">Mine CAP</button>
@@ -23,7 +23,7 @@
       function send(){
         var result = document.getElementById("result");
         var address=document.getElementById("address").value;
-        url="https://capcoin.grantrocks.repl.co/mine?address="+address;
+        url="/mine?address="+address;
         pooldata=get(url);
         poolmsg=pooldata.msg;
         miner_payout=pooldata.minerpayouts;
@@ -34,7 +34,7 @@
       function getbal(){
         var address=document.getElementById("address").value;
         let xhr = new XMLHttpRequest();
-        xhr.open('GET', 'https://capcoin.grantrocks.repl.co/wallet/getbalance?address='+address);
+        xhr.open('GET', '/wallet/getbalance?address='+address);
         xhr.responseType = 'text';
         xhr.send();
         xhr.onload=function(){
@@ -45,7 +45,7 @@
       function addresslookup(){
         var result = document.getElementById("result");
         var address=document.getElementById("address").value;
-        url="https://capcoin.grantrocks.repl.co/explore";
+        url="/explore";
         var r = get(url);
         result.innerHTML="";
         txsdata=""

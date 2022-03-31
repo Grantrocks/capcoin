@@ -5,7 +5,7 @@
   </head>
   <body>
     <h1>CapCoin Wallet</h1>
-    <a href="https://capcoin.grantrocks.repl.co">Home</a>
+    <a href="/">Home</a>
     <p>You can use your capcoin here on this official website.</p>
     <button onclick="generate()">Generate Wallet</button>
     <br>
@@ -39,7 +39,7 @@
                document.getElementById("mnemonic-seed").value = generate.responseText;
             }
         };
-        generate.open("GET", "https://capcoin.grantrocks.repl.co/wallet/generate", true);
+        generate.open("GET", "/wallet/generate", true);
         generate.send();
       };
       function faucetclaim(){
@@ -50,7 +50,7 @@
                document.getElementById("fclaimr").innerHTML = claim.responseText;
             }
         };
-        claim.open("GET", "https://capcoin.grantrocks.repl.co/wallet/faucetclaim?address="+address, true);
+        claim.open("GET", "/wallet/faucetclaim?address="+address, true);
         claim.send();
       };
       function transaction(){
@@ -63,7 +63,7 @@
                document.getElementById("send-result").innerHTML = sendcap.responseText;
             }
         };
-        sendcap.open("GET", "https://capcoin.grantrocks.repl.co/wallet/sendcap?to="+to+'&amount='+amount+'&priv='+privk, true);
+        sendcap.open("GET", "/wallet/sendcap?to="+to+'&amount='+amount+'&priv='+privk, true);
         c=confirm(`Are you sure you want to send ${amount} CAP`)
         if (c==true){
           sendcap.send();
@@ -88,7 +88,7 @@
                document.getElementById("priv").value=priv;
             }
         };
-        importwalleth.open("GET", "https://capcoin.grantrocks.repl.co/wallet/import?seed="+iseed, true);
+        importwalleth.open("GET", "/wallet/import?seed="+iseed, true);
         importwalleth.send();
       };
     </script>
