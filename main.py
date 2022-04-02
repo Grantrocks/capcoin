@@ -94,6 +94,21 @@ def homepage():
 @app.route('/blog', methods=['GET'])
 def blog():
   return render_template('blog.html'),200
+@app.route('/article', methods=['GET'])
+def article():
+  return render_template('article.html'),200
+@app.route('/blog/get', methods=['GET'])
+def blogget():
+  aname=request.args.get('aname')
+  post_file=open("blog.json")
+  post_data=json.load(post_file)
+  posts=post_data['posts']
+  for i in posts:
+    if i['Article']==aname:
+      response=i
+    else:
+      response={'Article':"404 Not Found","Date":"","Content":""}
+  return jsonify(response),200
 @app.route('/blog/posts', methods=['GET'])
 def blogposts():
   b=open("blog.json")

@@ -1,0 +1,29 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>Article - CapCoin</title>
+  </head>
+  <body>
+    <div id="article">
+      <h1 id="article-name"></h1>
+      <h3 id="article-date"></h3>
+      <p id='article-content'></p>
+    </div>
+    <script>
+      const queryString = window.location.search;
+      const urlParams = new URLSearchParams(queryString);
+      const aname = urlParams.get('aname');
+      url="/blog/get?aname="+aname
+      var xhttp = new XMLHttpRequest();
+      xhttp.open("GET", url, true);
+      xhttp.responseType='json';
+      xhttp.send();
+      xhttp.onload=function(){
+        var data = xhttp.response;
+        document.getElementById("article-name").innerHTML=data.Article;
+        document.getElementById("article-date").innerHTML=data.Date;
+        document.getElementById("article-content").innerHTML=data.Content;
+      }
+    </script>
+  </body>
+</html>

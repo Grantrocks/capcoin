@@ -5,7 +5,7 @@
   </head>
   <body>
     <h1>CapCoin Blog</h1>
-    <button onclick="write()">Write Article</button>
+    <button onclick="writea()">Write Article</button>
     <div id="article-write">
       <input id="article-name" type="text" placeholder="Article Name">
       <input id="article-date" type="datetime" placeholder="Date">
@@ -17,11 +17,16 @@
     </div>
     <script>
       document.getElementById("article-write").style.display="none";
-      function publish(){
+      function writea(){
         document.getElementById("article-write").style.display="block";
+      }
+      function publish(){
         var articlename = document.getElementById("article-name").value;
         var articledate = document.getElementById("article-date").value;
         var articlecontent = document.getElementById("article-content").value;
+        if (articlename=="" || articledate=="" || articlecontent==""){
+          alert("Text cannot be empty!")
+        }else{
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
@@ -31,10 +36,26 @@
         xhttp.open("GET", "/blog/post?articlename="+articlename+"&articledate="+articledate+"&articlecontent="+articlecontent, true);
         xhttp.send();
         document.getElementById("article-write").style.display="none";
+        }
       };
       function getposts(){
         var posts_section=document.getElementById("posts");
+        var postget = new XMLHttpRequest();
+        postget.open("GET", "/blog/posts", true);
+        postget.responseType='json';
+        postget.send();
+        postget.onload=function(){
+          var posts = postget.response;
+          for (p in posts){
+            var txt = document.createElement("a");  
+            txt.innerHTML = posts[p].Article;
+            txt.href = "/article?aname="+posts[p].Article;
+            document.getElementById("posts").appendChild(txt); 
+            document.getElementById("posts").appendChild(document.createElement("br")); 
+          }
+        }
       };
+      getposts()
     </script>
   </body>
 </html>
