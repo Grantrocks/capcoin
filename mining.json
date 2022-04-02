@@ -1,22 +1,3 @@
 {
- "MINING REWARDS": [
-  {
-   "HASH": "f40b35ce20b924ce6cfc055d6211c390b5b3010c14e523199a3d0ab49dc78c8c",
-   "txdata": {
-    "FROM": "MINER REWARDS",
-    "TO": "1DgP646U4CahQJUPeRBX3j9ayb1nttB8nq",
-    "AMOUNT": 0.0101,
-    "Signing": "04aef49f4bf503adfde730f6e2b339e4794e2bbc131a0c1636db9a5084cea2a2"
-   }
-  },
-  {
-   "HASH": "260e2114ea9dc73b506b65f72ab69250a1b0b4f08a9eab8122aec33e41a5bb95",
-   "txdata": {
-    "FROM": "MINER REWARDS",
-    "TO": "1DgP646U4CahQJUPeRBX3j9ayb1nttB8nq",
-    "AMOUNT": 0.00909,
-    "Signing": "04aef49f4bf503adfde730f6e2b339e4794e2bbc131a0c1636db9a5084cea2a2"
-   }
-  }
- ]
+ "MINING REWARDS": []
 }

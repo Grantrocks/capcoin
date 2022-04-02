@@ -5,7 +5,7 @@ import json
 import checkaddress
 import bitcoin
 def faucetclaim(to):
-  rs="tomato sand noodle recipe slam broken poverty outside come execute copper caught initial live faint bench donate casual glow life empty rally parent fan"
+  rs="unfold air buddy obtain good soup fashion health problem youth angle lecture kitten current draw flock sense tone sausage setup dog because winner bargain"
   total=0
   walletdata=checkaddress.check(rs)
   recover=walletdata[0]

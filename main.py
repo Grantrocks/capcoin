@@ -9,11 +9,16 @@ import webapi
 pay=158
 class Blockchain:
    def __init__(self):
-       self.chain = []
-       self.create_blockchain(proof=1, previous_hash='0',txs=[])
+       with open("blockchain.json") as prvdata:
+         prev=json.load(prvdata)
+         bpd=prev['Blockchain']
+         prevt=bpd[-1]
+         prevtd=prevt['data']
+       self.chain = bpd
+       self.create_blockchain(proof=prevtd['proof'], previous_hash=prevtd['previous_hash'],txs=[prevtd['transactions']])
    def create_blockchain(self, proof, previous_hash,txs):
        block = {
-           'index': len(self.chain) + 1,
+           'index': len(self.chain),
            'timestamp': str(datetime.datetime.now()),
            'proof': proof,
            'previous_hash': previous_hash,
@@ -142,7 +147,7 @@ def mine_block():
    pending=json.load(f)
    transactions=pending["new"]
    mr.close()
-   urpay=random.randint(0,200)
+   urpay=random.randint(0,600)
    if len(transactions)>0:
      checked=0
      for m in transactions:
@@ -154,7 +159,7 @@ def mine_block():
        if cp==addr:
          pass
        else:
-         transactions.pop(checked)
+         transactions.remove(m)
        checked+=1
      block = blockchain.create_blockchain(proof, previous_hash,transactions)
      response = {"index":block['index'],"data":{"confirmed": "True","timestamp": block["timestamp"],"proof": block["proof"],"previous_hash": block["previous_hash"],"transactions": block["transactions"]}}
@@ -179,10 +184,43 @@ def mine_block():
      f.seek(0)
      json.dump(file_data, f, indent=1)
      f.close()
-     mined=f"Your Reward: {txtotal*0.01}  Wait for a miner to get the right number so you can get your reward."
-     return {"msg":mined,"minerpayouts":{"YourNumber":urpay,"PoolNumber":pay}}, 200
+     return {"rewarded":False,"msg":f"Your Reward: {txtotal*0.001}","minerpayouts":{"YourNumber":urpay,"PoolNumber":pay}}, 200
    elif len(mrrewards)>0 and pay==urpay:
-     block = blockchain.create_blockchain(proof, previous_hash,mrrewards)
+     total_reward=0.0
+     miner_addresses=[]
+     confirm_address=[]
+     curr_i=0
+     for w in mrrewards:
+       am=w['txdata']
+       amoun=am['AMOUNT']
+       total_reward+=float(amoun)
+       miner_addresses+=[am["TO"]]
+     for adr in range(len(mrrewards)):
+       for m in mrrewards:
+         d=m['txdata']
+         addr=d['TO']
+         if addr in miner_addresses:
+           shares=miner_addresses.count(addr)
+           data=[addr,shares]
+           for i in miner_addresses:
+             if addr==i:
+               miner_addresses.remove(addr)
+           confirm_address+=[data]
+         else:
+           pass
+     share_reward='{"rewards":[]}'
+     share_j_parse=json.loads(share_reward)
+     total_shares=0
+     for i in confirm_address:
+       user_share=i[1]
+       total_shares+=user_share
+     for i in confirm_address:
+       user_share=total_shares-i[1]
+       svalue=total_reward/float(user_share)
+       share_rhash=hashlib.sha256(str("Reward From Official CapCoin Mining Pool").encode("utf-8")).hexdigest()
+       share_rjson={"HASH":share_rhash,"txdata":{"TIME":str(datetime.datetime.now()),"FROM":"MINER REWARDS","TO":i[0],"AMOUNT":svalue,"Signing":share_rhash}}
+       share_j_parse['rewards'].append(share_rjson)
+     block = blockchain.create_blockchain(proof, previous_hash,share_j_parse)
      response = {"index":block['index'],"data":{"confirmed": "True","timestamp": block["timestamp"],"proof": block["proof"],"previous_hash": block["previous_hash"],"transactions": block["transactions"]}}
      mr=open("mining.json","r+")
      mr.truncate(0)
@@ -198,11 +236,9 @@ def mine_block():
      f.seek(0)
      json.dump(file_data, f, indent=1)
      f.close()
-     return {"msg":response,"minerpayouts":{"YourNumber":urpay,"PoolNumber":pay}}, 200
+     return {"rewarded":True,"msg":"You guessed the right number check your balance to see how much cap you have now.","minerpayouts":{"YourNumber":urpay,"PoolNumber":pay}}, 200
    else:
-     return {"msg":"There are no transactions to confirm at this time!","minerpayouts":{"YourNumber":urpay,"PoolNumber":pay}}, 200
-   #except:
-     #return {"msg":"Something went wrong!"},200
+     return {"rewarded":False,"msg":"There are no transactions to confirm at this time!","minerpayouts":{"YourNumber":urpay,"PoolNumber":pay}}, 200
 
 
 @app.route('/get_chain', methods=['GET'])
@@ -213,14 +249,12 @@ def get_chain():
 @app.route('/pending',methods=['GET'])
 def pending():
   f=open("pending.json")
-  data=f.read()
   f.close()
   response=json.load(f)
   return jsonify(response),200
 @app.route('/mining',methods=['GET'])
 def mining():
   f=open("mining.json")
-  data=f.read()
   f.close()
   response=json.load(f)
   return jsonify(response),200
@@ -234,3 +268,4 @@ def bchain():
 
 
 app.run(host='0.0.0.0', port=5000)
+

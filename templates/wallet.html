@@ -7,11 +7,13 @@
     <h1>CapCoin Wallet</h1>
     <a href="/">Home</a>
     <p>You can use your capcoin here on this official website.</p>
+    <div id="importwallet-data">
     <button onclick="generate()">Generate Wallet</button>
     <br>
     <input type="text" id="mnemonic-seed" placeholder="Mnemonic Seed">
     <br>
     <button onclick="importwallet()">Import Wallet</button>
+    </div>
     <div id="wallet">
       <p>In the web wallet you can send capcoin and you can also view your wallet data.</p>
       <p id="fclaimr">If you dont have any cap then you can claim from the faucet for some.</p>
@@ -32,6 +34,16 @@
     <script>
       const wallet = document.getElementById("wallet");
       wallet.style.display="none";
+      function getbal(){
+        var address=document.getElementById("address").value;
+        let xhr = new XMLHttpRequest();
+        xhr.open('GET', '/wallet/getbalance?address='+address);
+        xhr.responseType = 'text';
+        xhr.send();
+        xhr.onload=function(){
+          localStorage.balance=xhr.response;
+        };
+      };
       function generate(){
         var generate = new XMLHttpRequest();
         generate.onreadystatechange = function() {
@@ -71,8 +83,18 @@
           document.getElementById("send-result").innerHTML = "Transaction canceled.";
         }
       };
+      function save(){
+        var address = document.getElementById("address").value;
+        var iseed = document.getElementById("mnemonic-seed").value;
+        var privk=document.getElementById("priv").value;
+        var pub = document.getElementById("pub").value;
+        walletdata=`Wallet data for CAPCOIN. DO NOT LOSE OR SHARE THE FILES CONTENTS!!!!\nMnemonic Seed: ${iseed}`;
+        var blob = new Blob([walletdata],{ type: "text/plain;charset=utf-8" });
+        saveAs(blob, "capcoinwallet.txt");
+      };
       function importwallet(){
         wallet.style.display='block';
+        document.getElementById("importwallet-data").style.display="none";
         var importwalleth = new XMLHttpRequest();
         var iseed = document.getElementById("mnemonic-seed").value;
         importwalleth.onreadystatechange = function() {
@@ -81,16 +103,28 @@
                address=jdata.address;
                priv=jdata.priv;
                pub=jdata.pub;
-               wallettext=`Address: ${address}<br>Private Key: ${priv}<br>Public Key: ${pub}`;
-               document.getElementById("wallet-data-text").innerHTML = wallettext;
                document.getElementById("address").value=address;
                document.getElementById("pub").value=pub;
                document.getElementById("priv").value=priv;
+               getbal(); 
+               balance=localStorage.balance;
+               wallettext=`Address: ${address}<br>Private Key: ${priv}<br>Public Key: ${pub}<br><br><h4>Balance: ${balance}</h4>`;
+               document.getElementById("wallet-data-text").innerHTML = wallettext; 
+               localStorage.iseed=iseed;
             }
         };
         importwalleth.open("GET", "/wallet/import?seed="+iseed, true);
         importwalleth.send();
+        if (localStorage.used!="yes"){
+        save()
+        localStorage.used="yes";
+        }
       };
+      if (localStorage.used=="yes"){
+        document.getElementById("mnemonic-seed").value = localStorage.iseed;
+        importwallet()
+      }
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js" integrity="sha512-csNcFYJniKjJxRWRV1R7fvnXrycHP6qDR21mgz1ZP55xY5d+aHLfo9/FcGDQLfn2IfngbAHd8LdfsagcCqgTcQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   </body>
 </html>

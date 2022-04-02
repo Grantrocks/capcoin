@@ -6,7 +6,7 @@
   <body>
     <h1>CapCoin</h1>
     <a href="/wallet">Web Wallet</a>
-    <p>Capcoin is a crytpocurrency designed for very low fees and fast confirmations.</p>
+    <p>Capcoin is a crytpocurrency designed for very low fees and fast confirmations. This is not like other cryptocurrencys. This is faster better and simpler.</p>
     <input type="text" id="address" placeholder="CAP Address">
     <button onclick="send()">Mine CAP</button>
     <button onclick="addresslookup()">Lookup Address</button>
@@ -29,8 +29,12 @@
         miner_payout=pooldata.minerpayouts;
         pool_pay_num=miner_payout.PoolNumber;
         your_luck=miner_payout.YourNumber;
-        result.innerHTML = `<br>Message From Pool: ${poolmsg}<h3>Poolstats</h3><p>In order for the miners to be paid, someones computer must guess the right number and there have to be pending rewards.</p><br>Pool Number: ${pool_pay_num}<br>Your Miners Number: ${your_luck}`;
-      };
+        if (pooldata.rewarded){
+          result.innerHTML = `\nMessage From Pool: ${poolmsg}\nPoolstats\nIn order for the miners to be paid, someones computer must guess the right number and there have to be pending rewards.\nPool Number: ${pool_pay_num}\nYour Miners Number: ${your_luck}`;
+        }else{
+          result.innerHTML = `\nMessage From Pool: ${poolmsg}\nPoolstats\nIn order for the miners to be paid, someones computer must guess the right number and there have to be pending rewards.\nPool Number: ${pool_pay_num}\nYour Miners Number: ${your_luck}`;
+        }
+        };
       function getbal(){
         var address=document.getElementById("address").value;
         let xhr = new XMLHttpRequest();
@@ -68,7 +72,7 @@
             from=txdata.FROM
             amount=txdata.AMOUNT
             found+=1
-            if (to==address){
+            if (to==address || from==address && to!="MINER REWARDS"){
               txnfound+=1
               total+=parseFloat(amount);
               txfound+=`\n  ---Transaction In This Block---\n  From: ${from}\n  To: ${to}\n  Amount: ${amount}\n  TX ID: ${txid}\n`
