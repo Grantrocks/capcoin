@@ -91,6 +91,23 @@ blockchain = Blockchain()
 @app.route('/', methods=['GET'])
 def homepage():
   return render_template("index.html"),200
+@app.route('/blog', methods=['GET'])
+def blog():
+  return render_template('blog.html'),200
+@app.route('/blog/posts', methods=['GET'])
+def blogposts():
+  b=open("blog.json")
+  data=json.load(b)
+  posts=data['posts']
+  b.close()
+  return jsonify(posts),200
+@app.route('/blog/post', methods=['GET'])
+def blogpost():
+  articlename=request.args.get('articlename')
+  articledate=request.args.get('articledate')
+  articlecontent=request.args.get('articlecontent')
+  webapi.blogpost(articlename,articledate,articlecontent)
+  return f"Published {articlename}",200
 @app.route('/wallet', methods=['GET'])
 def wallet():
   return render_template("wallet.html"),200

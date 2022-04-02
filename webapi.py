@@ -151,3 +151,13 @@ def balance(address):
     if hs["FROM"]==address:
       total-=float(hs["AMOUNT"])
   return str(total)
+def blogpost(articlename,articledate,articlecontent):
+  data={"Article":articlename,"Date":articledate,"Content":articlecontent}
+  blog_file=open("blog.json","r+")
+  blog=json.load(blog_file)
+  blog_file.truncate(0)
+  blog_file.close()
+  blog_file=open('blog.json','r+')
+  blog['posts'].append(data)
+  json.dump(blog,blog_file,indent=1)
+  blog_file.close()

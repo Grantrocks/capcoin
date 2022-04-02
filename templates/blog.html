@@ -1,0 +1,40 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>Blog - CapCoin</title>
+  </head>
+  <body>
+    <h1>CapCoin Blog</h1>
+    <button onclick="write()">Write Article</button>
+    <div id="article-write">
+      <input id="article-name" type="text" placeholder="Article Name">
+      <input id="article-date" type="datetime" placeholder="Date">
+      <textarea id="article-content">Article HERE</textarea>
+      <button onclick="publish()">Publish</button>
+    </div>
+    <div id="posts">
+      
+    </div>
+    <script>
+      document.getElementById("article-write").style.display="none";
+      function publish(){
+        document.getElementById("article-write").style.display="block";
+        var articlename = document.getElementById("article-name").value;
+        var articledate = document.getElementById("article-date").value;
+        var articlecontent = document.getElementById("article-content").value;
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+               alert("PUBLISHED")
+            }
+        };
+        xhttp.open("GET", "/blog/post?articlename="+articlename+"&articledate="+articledate+"&articlecontent="+articlecontent, true);
+        xhttp.send();
+        document.getElementById("article-write").style.display="none";
+      };
+      function getposts(){
+        var posts_section=document.getElementById("posts");
+      };
+    </script>
+  </body>
+</html>
