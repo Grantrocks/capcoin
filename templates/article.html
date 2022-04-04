@@ -2,12 +2,16 @@
 <html>
   <head>
     <title>Article - CapCoin</title>
+    <link rel='stylesheet' href='/static/style.css' type='text/css' media='all'>
   </head>
   <body>
     <div id="article">
       <h1 id="article-name"></h1>
+      <h2 id="article-author"></h2>
       <h3 id="article-date"></h3>
       <p id='article-content'></p>
+      <p>If you enjoyed this article consider donating to the author. Authors CAP address is below.</p>
+      <p id="article-donate"></p>
     </div>
     <script>
       const queryString = window.location.search;
@@ -23,6 +27,8 @@
         document.getElementById("article-name").innerHTML=data.Article;
         document.getElementById("article-date").innerHTML=data.Date;
         document.getElementById("article-content").innerHTML=data.Content;
+        document.getElementById("article-author").innerHTML=data.Author;
+        document.getElementById("article-donate").innerHTML=data.Donate;
       }
     </script>
   </body>

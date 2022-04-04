@@ -2,14 +2,24 @@
 <html>
   <head>
     <title>Blog - CapCoin</title>
+    <link rel='stylesheet' href='/static/style.css' type='text/css' media='all'>
   </head>
   <body>
     <h1>CapCoin Blog</h1>
+    <a href="/">Homepage</a>
+    <br>
     <button onclick="writea()">Write Article</button>
     <div id="article-write">
       <input id="article-name" type="text" placeholder="Article Name">
       <input id="article-date" type="datetime" placeholder="Date">
-      <textarea id="article-content">Article HERE</textarea>
+      <input id="article-author" type="text" placeholder="Name (optional)">
+      <input id="article-donate" type="text" placeholder="CapCoin Address (optional)">
+      <br>
+      <p>If you want to add a image to your article use the following code.</p>
+      <p><code>&lt;img src='img link here' alt='sentence describing image'&gt;</code></p>
+      <br>
+      <textarea id="article-content">Write article here</textarea>
+      <br>
       <button onclick="publish()">Publish</button>
     </div>
     <div id="posts">
@@ -24,6 +34,8 @@
         var articlename = document.getElementById("article-name").value;
         var articledate = document.getElementById("article-date").value;
         var articlecontent = document.getElementById("article-content").value;
+        var author = document.getElementById("article-author").value;
+        var donate = document.getElementById("article-donate").value;
         if (articlename=="" || articledate=="" || articlecontent==""){
           alert("Text cannot be empty!")
         }else{
@@ -33,7 +45,7 @@
                alert("PUBLISHED")
             }
         };
-        xhttp.open("GET", "/blog/post?articlename="+articlename+"&articledate="+articledate+"&articlecontent="+articlecontent, true);
+        xhttp.open("GET", "/blog/post?articlename="+articlename+"&articledate="+articledate+"&articlecontent="+articlecontent+"&author="+author+"&donate="+donate, true);
         xhttp.send();
         document.getElementById("article-write").style.display="none";
         }

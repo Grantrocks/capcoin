@@ -3,12 +3,37 @@
   {
    "Article": "Welcome To CapCoin",
    "Date": "04/01/2022",
-   "Content": "CapCoin is a cryptocurrency that is very simple and very fast. The whole idea of this project was to make a cryptocurrency that was almost a instant mine and it was secure and there were little transaction fees. I basically created a simplified version of Bitcoin. I created this cryptocurrency from scratch using the programming languages Python,HTML,JS,CSS. It took me a long time to do and I really hope that you enjoy using it. Please do note though that this cryptocurrency is not technically yet a cryptocurrency meaning you cant do much with it but show it off and send it around to friends and family. I will make a shop on the website though were you can buy miners with your CapCoin so that you dont have to constantly press the mine button on the mainpage. Thanks for reading, Grant McNamara"
+   "Content": "CapCoin is a cryptocurrency that is very simple and very fast. The whole idea of this project was to make a cryptocurrency that was almost a instant mine and it was secure and there were little transaction fees. I basically created a simplified version of Bitcoin. I created this cryptocurrency from scratch using the programming languages Python,HTML,JS,CSS. It took me a long time to do and I really hope that you enjoy using it. Please do note though that this cryptocurrency is not technically yet a cryptocurrency meaning you cant do much with it but show it off and send it around to friends and family. I will make a shop on the website though were you can buy miners with your CapCoin so that you dont have to constantly press the mine button on the mainpage. Thanks for reading, Grant McNamara",
+   "Donate": "15kF1aPJMjzaY8254NYnNvRPNFvLWfSeZT",
+   "Author": "Grant McNamara"
   },
   {
    "Article": "Why Should You Use CapCoin?",
    "Date": "04/01/2022",
-   "Content": "You should use capcoin because not only is it something that I spend a week making, but it is also a community of people that enjoy crypto. Im hoping that quite a bit of people use it and have a good time. First 100 people to make a transaction recieving or sending get 100 CAP."
+   "Content": "You should use capcoin because not only is it something that I spend a week making, but it is also a community of people that enjoy crypto. Im hoping that quite a bit of people use it and have a good time. First 100 people to make a transaction recieving or sending get 100 CAP.",
+   "Donate": "15kF1aPJMjzaY8254NYnNvRPNFvLWfSeZT",
+   "Author": "Grant McNamara"
+  },
+  {
+   "Article": "Update To The Mining Rewards System",
+   "Date": "04/04/2022",
+   "Content": "As of April 4 of 2022, the mining rewards system for capcoin will now include added cap as a reward. Instead of only getting a portion of the transactions sent you will now get that and a block reward and it adds cap to the blockchain. So therefore there will no longer be limited cap. Also just a notice to all that send transactions on capcoin, make sure your are sending capcoin to a valid capcoin address or the receiver will not get the capcoin and the funds will be lost.",
+   "Donate": "15kF1aPJMjzaY8254NYnNvRPNFvLWfSeZT",
+   "Author": "Grant McNamara"
+  },
+  {
+   "Article": "Quick Bug Fix",
+   "Date": "04/04/2022",
+   "Content": "Hey guys just an announcement real quick. I fixed the webapi so now it's working again. Also added the ability to add images to posts. <img src='https://www.bing.com/th?id=OIP.rGxHp6O-tF9mlaLZ6wy7GgHaEV'>",
+   "Donate": "15kF1aPJMjzaY8254NYnNvRPNFvLWfSeZT",
+   "Author": "Grant McNamara"
+  },
+  {
+   "Article": "Useful Features Added To The Blog",
+   "Date": "4/4/2022",
+   "Content": "We have added some new cool features to the capcoin blog. Some of the features are images, donations, authors and more to come. We hope that you like the blog and the site altogether!",
+   "Author": "Grant McNamara",
+   "Donate": "15kF1aPJMjzaY8254NYnNvRPNFvLWfSeZT"
   }
  ]
 }

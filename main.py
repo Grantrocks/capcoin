@@ -100,14 +100,16 @@ def article():
 @app.route('/blog/get', methods=['GET'])
 def blogget():
   aname=request.args.get('aname')
-  post_file=open("blog.json")
-  post_data=json.load(post_file)
-  posts=post_data['posts']
-  for i in posts:
-    if i['Article']==aname:
-      response=i
+  blog_file=open("blog.json")
+  blog_json=json.load(blog_file)
+  blog_posts=blog_json['posts']
+  for post in blog_posts:
+    article_file=post['Article']
+    if str(article_file)==str(aname):
+      response={"Article":post['Article'],"Date":post["Date"],"Content":post["Content"],"Author":post['Author'],"Donate":post['Donate']}
+      break
     else:
-      response={'Article':"404 Not Found","Date":"","Content":""}
+      response={"Article":"404 Article Not Found","Date":"","Content":"It seems the article you are looking for does not exist"}
   return jsonify(response),200
 @app.route('/blog/posts', methods=['GET'])
 def blogposts():
@@ -121,7 +123,9 @@ def blogpost():
   articlename=request.args.get('articlename')
   articledate=request.args.get('articledate')
   articlecontent=request.args.get('articlecontent')
-  webapi.blogpost(articlename,articledate,articlecontent)
+  articledonate=request.args.get('donate')
+  articleauthor=request.args.get('author')
+  webapi.blogpost(articlename,articledate,articlecontent,articleauthor,articledonate)
   return f"Published {articlename}",200
 @app.route('/wallet', methods=['GET'])
 def wallet():
@@ -212,16 +216,18 @@ def mine_block():
      f=open("blockchain.json","r+")
      file_data=json.load(f)
      new_data = response
+     current_index=file_data['Blockchain'][-1]['index']
+     print(current_index)
      file_data["Blockchain"].append(new_data)
      f.seek(0)
      json.dump(file_data, f, indent=1)
      f.close()
      return {"rewarded":False,"msg":f"Your Reward: {txtotal*0.001}","minerpayouts":{"YourNumber":urpay,"PoolNumber":pay}}, 200
    elif len(mrrewards)>0 and pay==urpay:
-     total_reward=0.0
+     block_reward=10
+     total_reward=0.0+block_reward
      miner_addresses=[]
      confirm_address=[]
-     curr_i=0
      for w in mrrewards:
        am=w['txdata']
        amoun=am['AMOUNT']

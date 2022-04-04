@@ -87,6 +87,7 @@ def sendcap(to,qty,priv):
       bld=b["data"]
       trx=bld['transactions']
       for w in trx:
+        print(w)
         hs=w["txdata"]
         if hs["TO"]==address:
           total+=float(hs["AMOUNT"])
@@ -151,8 +152,8 @@ def balance(address):
     if hs["FROM"]==address:
       total-=float(hs["AMOUNT"])
   return str(total)
-def blogpost(articlename,articledate,articlecontent):
-  data={"Article":articlename,"Date":articledate,"Content":articlecontent}
+def blogpost(articlename,articledate,articlecontent,articleauthor,articledonate):
+  data={"Article":articlename,"Date":articledate,"Content":articlecontent,"Author":articleauthor,"Donate":articledonate}
   blog_file=open("blog.json","r+")
   blog=json.load(blog_file)
   blog_file.truncate(0)

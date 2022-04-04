@@ -469,33 +469,36 @@
    "index": 8,
    "data": {
     "confirmed": "True",
-    "timestamp": "2022-04-02 01:52:23.281496",
+    "timestamp": "2022-04-04 13:22:18.339985",
     "proof": 15457,
-    "previous_hash": "0af5e4eb40aec05a483a191e7e9ed2023ce7c1af2a7d0de17ec79fe04cae8071",
-    "transactions": {
-     "rewards": [
-      {
-       "HASH": "ebc5804a3ec8d3d08d1c5d15728aa1a017b59ec5b80e40edbc2166560336e9d9",
-       "txdata": {
-        "TIME": "2022-04-02 01:52:23.281461",
-        "FROM": "MINER REWARDS",
-        "TO": "15kF1aPJMjzaY8254NYnNvRPNFvLWfSeZT",
-        "AMOUNT": 0.01313,
-        "Signing": "ebc5804a3ec8d3d08d1c5d15728aa1a017b59ec5b80e40edbc2166560336e9d9"
-       }
-      },
-      {
-       "HASH": "ebc5804a3ec8d3d08d1c5d15728aa1a017b59ec5b80e40edbc2166560336e9d9",
-       "txdata": {
-        "TIME": "2022-04-02 01:52:23.281488",
-        "FROM": "MINER REWARDS",
-        "TO": "16ZXPFFx1b7gT3FtRj9ceJausRtXrFRhXB",
-        "AMOUNT": 0.006565,
-        "Signing": "ebc5804a3ec8d3d08d1c5d15728aa1a017b59ec5b80e40edbc2166560336e9d9"
+    "previous_hash": "7cf1fe03821e35e8b355632bc3600884a391a4270384d5966683731a619a82bf",
+    "transactions": [
+     {
+      "HASH": "ef91a79103f65574f8fad69927002eed4e747315a88c61ffe0c8a33142b50834",
+      "txdata": {
+       "FROM": "15kF1aPJMjzaY8254NYnNvRPNFvLWfSeZT",
+       "TO": "16ZXPFFx1b7gT3FtRj9ceJausRtXrFRhXB",
+       "AMOUNT": "1000",
+       "Signing": {
+        "Public Key": "028724ae211aab01f5316f5a386aee77c67f31432e9381d215a28d4be75ea32fa5",
+        "Address": "15kF1aPJMjzaY8254NYnNvRPNFvLWfSeZT"
        }
       }
-     ]
-    }
+     },
+     {
+      "HASH": "3f6d6bcc86f775714400a06d4616b81639de2bddfe75d1ae8763759d127ac948",
+      "txdata": {
+       "Time Sent": "2022-04-04 13:22:08.950624",
+       "FROM": "15kF1aPJMjzaY8254NYnNvRPNFvLWfSeZT",
+       "TO": "MINER REWARDS",
+       "AMOUNT": 10.0,
+       "Signing": {
+        "Public Key": "028724ae211aab01f5316f5a386aee77c67f31432e9381d215a28d4be75ea32fa5",
+        "Address": "15kF1aPJMjzaY8254NYnNvRPNFvLWfSeZT"
+       }
+      }
+     }
+    ]
    }
   }
  ]

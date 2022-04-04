@@ -3,3 +3,4 @@ requests
 bitcoin
 mnemonic
 bip32utils
+gunicorn
