@@ -183,7 +183,7 @@ def mine_block():
    transactions=pending["new"]
    mr.close()
    pay=(len(mrrewards)*50)-random.randint(0,9)
-   urpay=random.randint(0,pay+50)
+   urpay=random.randint(0,pay+5)
    if len(transactions)>0:
      checked=0
      for m in transactions:
