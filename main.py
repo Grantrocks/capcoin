@@ -182,8 +182,8 @@ def mine_block():
    pending=json.load(f)
    transactions=pending["new"]
    mr.close()
-   urpay=random.randint(0,600)
    pay=(len(mrrewards)*50)-random.randint(0,9)
+   urpay=random.randint(0,pay)
    if len(transactions)>0:
      checked=0
      for m in transactions:
@@ -303,3 +303,5 @@ def bchain():
   f.close()
   response=data
   return jsonify(response),200
+
+app.run()
