@@ -109,11 +109,11 @@
                document.getElementById("address").value=address;
                document.getElementById("pub").value=pub;
                document.getElementById("priv").value=priv;
+               getbal()
                balance=localStorage.balance;
                wallettext=`Address: ${address}<br>Private Key: ${priv}<br>Public Key: ${pub}<br><br><h4>Balance: ${balance}</h4>`;
                document.getElementById("wallet-data-text").innerHTML = wallettext; 
                localStorage.iseed=iseed;
-               getbal()
             }
         };
         importwalleth.open("GET", "/wallet/import?seed="+iseed, true);
