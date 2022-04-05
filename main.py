@@ -182,7 +182,7 @@ def mine_block():
    pending=json.load(f)
    transactions=pending["new"]
    mr.close()
-   pay=(len(mrrewards)*50)-random.randint(0,9)
+   pay=(len(mrrewards)*50-random.randint(0,9))
    urpay=random.randint(0,pay+5)
    if len(transactions)>0:
      checked=0
@@ -253,12 +253,15 @@ def mine_block():
        user_share=i[1]
        total_shares+=user_share
      for i in confirm_address:
-       user_share=total_shares-i[1]
+       print(i)
+       user_share=total_shares+i[1]
+       print(user_share)
+       print(total_reward)
        svalue=total_reward/float(user_share)
        share_rhash=hashlib.sha256(str("Reward From Official CapCoin Mining Pool").encode("utf-8")).hexdigest()
        share_rjson={"HASH":share_rhash,"txdata":{"TIME":str(datetime.datetime.now()),"FROM":"MINER REWARDS","TO":i[0],"AMOUNT":svalue,"Signing":share_rhash}}
        share_j_parse['rewards'].append(share_rjson)
-     block = blockchain.create_blockchain(proof, previous_hash,share_j_parse)
+     block = blockchain.create_blockchain(proof, previous_hash,share_j_parse['rewards'])
      response = {"index":block['index'],"data":{"confirmed": "True","timestamp": block["timestamp"],"proof": block["proof"],"previous_hash": block["previous_hash"],"transactions": block["transactions"]}}
      mr=open("mining.json","r+")
      mr.truncate(0)

@@ -32,7 +32,7 @@ def faucetclaim(to):
   pdc=pdj["new"]
   for b in pdc:
     hs=b["txdata"]
-    if hs["TO"]==to and hs["FROM"]=="1PJt5vUjLjCZShavTf531vpCAp1zTP7W65":
+    if hs["TO"]==to and hs["FROM"]=="1AGwRsMEdHKYzc9FKRy5ZSMdfHYaenCmEk":
       return "You already have a claim pending!"
   tototal=0
   for b in blockc:
