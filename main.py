@@ -6,7 +6,6 @@ from minerreward import send_reward
 import checkaddress
 import random
 import webapi
-pay=158
 class Blockchain:
    def __init__(self):
        with open("blockchain.json") as prvdata:
@@ -184,6 +183,7 @@ def mine_block():
    transactions=pending["new"]
    mr.close()
    urpay=random.randint(0,600)
+   pay=(len(mrrewards)*50)-random.randint(0,9)
    if len(transactions)>0:
      checked=0
      for m in transactions:
