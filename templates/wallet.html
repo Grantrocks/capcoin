@@ -109,6 +109,7 @@
                document.getElementById("address").value=address;
                document.getElementById("pub").value=pub;
                document.getElementById("priv").value=priv;
+               getbal();
                balance=localStorage.balance;
                wallettext=`Address: ${address}<br>Private Key: ${priv}<br>Public Key: ${pub}<br><br><h4>Balance: ${balance}</h4>`;
                document.getElementById("wallet-data-text").innerHTML = wallettext; 
@@ -125,7 +126,6 @@
       if (localStorage.used=="yes"){
         document.getElementById("mnemonic-seed").value = localStorage.iseed;
         importwallet();
-        getbal();
       }
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js" integrity="sha512-csNcFYJniKjJxRWRV1R7fvnXrycHP6qDR21mgz1ZP55xY5d+aHLfo9/FcGDQLfn2IfngbAHd8LdfsagcCqgTcQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
