@@ -306,3 +306,4 @@ def bchain():
   f.close()
   response=data
   return jsonify(response),200
+app.run()
