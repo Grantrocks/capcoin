@@ -65,6 +65,7 @@
         };
         claim.open("GET", "/wallet/faucetclaim?address="+address, true);
         claim.send();
+        getbal();
       };
       function transaction(){
         var sendcap = new XMLHttpRequest();
@@ -80,6 +81,7 @@
         c=confirm(`Are you sure you want to send ${amount} CAP`)
         if (c==true){
           sendcap.send();
+          getbal();
         }else{
           document.getElementById("send-result").innerHTML = "Transaction canceled.";
         }
@@ -107,11 +109,11 @@
                document.getElementById("address").value=address;
                document.getElementById("pub").value=pub;
                document.getElementById("priv").value=priv;
-               getbal(); 
                balance=localStorage.balance;
                wallettext=`Address: ${address}<br>Private Key: ${priv}<br>Public Key: ${pub}<br><br><h4>Balance: ${balance}</h4>`;
                document.getElementById("wallet-data-text").innerHTML = wallettext; 
                localStorage.iseed=iseed;
+               getbal()
             }
         };
         importwalleth.open("GET", "/wallet/import?seed="+iseed, true);
@@ -123,7 +125,8 @@
       };
       if (localStorage.used=="yes"){
         document.getElementById("mnemonic-seed").value = localStorage.iseed;
-        importwallet()
+        importwallet();
+        getbal();
       }
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js" integrity="sha512-csNcFYJniKjJxRWRV1R7fvnXrycHP6qDR21mgz1ZP55xY5d+aHLfo9/FcGDQLfn2IfngbAHd8LdfsagcCqgTcQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
